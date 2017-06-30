@@ -1,0 +1,41 @@
+<!-- As a link -->
+<nav class="navbar navbar-inverse bg-inverse">
+  <a class="navbar-brand" href="#">Taxistas</a>
+</nav>
+
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-8">
+
+      <h1>Siguiendo a: <strong class="text-primary">Fulano</strong></h1>
+      
+      <agm-map [latitude]="lat" [longitude]="lng" [zoom]="13">
+        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+      </agm-map>
+      
+    </div>  
+
+    <div class="col-md-4">
+      <h1>Taxistas</h1>
+      <p>Seleccione para seguir</p>
+
+      <ul class="list-group">
+
+        <li class="list-group-item"
+            *ngFor="let taxista of taxistas | async">
+          {{ taxista.nombre }}
+        </li>
+        
+      </ul>
+
+      <br>
+
+      <button type="button" class="btn btn-primary btn-block">Dejar de seguir</button>
+      
+    </div>
+    
+  </div>
+  
+</div>
