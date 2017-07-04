@@ -9,10 +9,15 @@
 
     <div class="col-md-8">
 
-      <h1>Siguiendo a: <strong class="text-primary">Fulano</strong></h1>
+      <h1>Siguiendo a: <strong class="text-primary">{{ taxistaSeleccionado.nombre }}</strong></h1>
       
       <agm-map [latitude]="lat" [longitude]="lng" [zoom]="13">
-        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        <agm-marker 
+              *ngFor="let taxista of taxistas"
+              [latitude]="taxista.lat" 
+              [longitude]="taxista.lng"
+              [label]="taxista.nombre">
+        </agm-marker>
       </agm-map>
       
     </div>  
@@ -24,7 +29,8 @@
       <ul class="list-group">
 
         <li class="list-group-item"
-            *ngFor="let taxista of taxistas | async">
+            (click)="seguir_taxista(taxista)"
+            *ngFor="let taxista of taxistas">
           {{ taxista.nombre }}
         </li>
         
@@ -32,7 +38,10 @@
 
       <br>
 
-      <button type="button" class="btn btn-primary btn-block">Dejar de seguir</button>
+      <button type="button" 
+              class="btn btn-primary btn-block"
+              (click)="dejar_seguir_taxista()">
+        Dejar de seguir</button>
       
     </div>
     

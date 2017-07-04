@@ -8,11 +8,49 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 })
 export class AppComponent {
 
-  taxistas: FirebaseListObservable<any[]>;
+  taxistas: any[] = []
 
-  constructor(private afDB: AngularFireDatabase) {
-    this.taxistas = afDB.list('/usuarios');
-  }
   lat: number = 51.678418;
   lng: number = 7.809007;
+
+  taxistaSeleccionado: any = {}
+
+  siguiendo: boolean = false
+
+  constructor(private afDB: AngularFireDatabase) {
+
+    afDB.list('/usuarios').subscribe( taxistas => {
+
+      console.log(taxistas)
+
+      this.taxistas = taxistas
+
+      if ( this.siguiendo ) {
+
+        for ( let taxista of taxistas){
+
+          if ( taxista.$key === this.taxistaSeleccionado.$key){
+              this.lat = taxista.lat
+              this.lng = taxista.lng
+          }
+        }
+      }
+    })
+  }
+
+
+  seguir_taxista(taxista: any) {
+    console.log(taxista)
+    this.lat = taxista.lat
+    this.lng = taxista.lng
+    this.taxistaSeleccionado = taxista
+    this.siguiendo = true
+  }
+
+  dejar_seguir_taxista(taxista: any) {
+
+    this.siguiendo = false
+    this.taxistaSeleccionado = {}
+  }
+
 }
